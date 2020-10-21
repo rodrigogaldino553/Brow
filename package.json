@@ -1,0 +1,23 @@
+{
+  "name": "brow",
+  "version": "1.0.0",
+  "description": "Uma simples rede social",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rodrigogaldino553/Brow.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rodrigogaldino553/Brow/issues"
+  },
+  "homepage": "https://github.com/rodrigogaldino553/Brow#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
