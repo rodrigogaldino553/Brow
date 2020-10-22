@@ -14,7 +14,9 @@ server
 .use(express.static('public'))
 
 .get("/", pages.index)
+.get("/home", pages.home)
 .post("/create-user", pages.createUser)
+.post("/login", pages.login)
 .listen(process.env.PORT || 8080, ()=>{console.log('Working...')})
 
 
