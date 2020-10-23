@@ -1,3 +1,13 @@
 .hide{
     display: none;
 }
+
+input{
+    padding: 16px;
+    border: 0;
+    border-radius: 8px;
+    background: rgb(228, 227, 227);
+    color: rgb(78, 74, 74);
+    font-size: 18px;
+}
+

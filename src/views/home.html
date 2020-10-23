@@ -1,11 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bro | Home</title>
+
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/home.css">
 </head>
+
 <body>
-    <h1>Welcome!!</h1>
+    <input type="text" id="search" placeholder="Digite o nome ou usuario de alguem...">
+    <div class="users">
+        {%for user in users%}
+        <div class="user">
+            <img src="{{user.photo}}" alt="{{user.user}}" class="user-photo">
+            <h2 class="user-name">{{user.name}}</h2>
+            <h4 class="user">{{user.user}}</h4>
+        </div>
+        {%endfor%}
+    </div>
+    <script src="/scripts/home.js"></script>
 </body>
+
 </html>
