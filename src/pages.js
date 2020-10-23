@@ -2,7 +2,7 @@ const database = require('./database/db')
 const newUser = require('./database/create-user')
 
 
-var test = {}
+var user = {}
 
 module.exports = {
     index(req, res) {
@@ -11,14 +11,23 @@ module.exports = {
 
     async home(req, res) {
         const db = await database
-        const users = await db.all(`SELECT name, user, photo FROM users`)
-        console.log({users, test})
-        return res.render('home.html', { users, test })
+        const users = await db.all(`SELECT name, user, photo FROM users WHERE user!="${user.user}";`)
+        console.log({users, user})
+
+        
+        /*for(let c = 0; c < users.length; c++){
+            if(users[c].user == user.user){
+                users.splice(c, c)
+            }
+        }
+        console.log(users)*/
+
+        return res.render('home.html', { users, user })
     },
 
     async createUser(req, res) {
         const data = req.body
-        data.photo = './assets/padrao.png'//por enquanto q nao arruma o front
+        //data.photo = './assets/padrao.png'//por enquanto q nao arruma o front
         if (data.photo == '') {
             data.photo = './assets/padrao.png'//link de uma foto de perfil padrao
         }
@@ -54,9 +63,9 @@ module.exports = {
             const login = await db.all(`SELECT * FROM users WHERE user="${data.user}" AND password="${data.password}";`)//user="${data.name}" FROM users WHERE password="${data.password}";`)
 
             if (login.length > 0) {
-                test.name = login[0].name
-                test.user = login[0].user
-                test.photo = login[0].photo
+                user.name = login[0].name
+                user.user = login[0].user
+                user.photo = login[0].photo
 
 
                 return res.redirect('/home')

@@ -13,10 +13,13 @@
 <body>
     <input type="text" id="search" placeholder="Digite o nome ou usuario de alguem...">
     <div class="users">
+        {%for user in users%}
         <div class="user">
-            <img src="{{test.photo}}" alt="{{test.name}}">
-            <h2>{{test.name}}</h2>
+            <img src="{{user.photo}}" alt="{{user.user}}" class="user-photo">
+            <h2 class="user-name">{{user.name}}</h2>
+            <h4 class="user">{{user.user}}</h4>
         </div>
+        {%endfor%}
     </div>
     <script src="/scripts/home.js"></script>
 </body>
