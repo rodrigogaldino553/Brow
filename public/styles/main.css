@@ -1,9 +1,25 @@
+body{
+    font-family: Arial;
+    padding: 20px;
+}
+
+
 .hide{
     display: none;
 }
 
+form{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+
+}
 input{
+    width: 400px;
     padding: 16px;
+    margin-bottom: 8px;
     border: 0;
     border-radius: 8px;
     background: rgb(228, 227, 227);
@@ -11,3 +27,6 @@ input{
     font-size: 18px;
 }
 
+#user{
+    text-transform: lowercase;
+}

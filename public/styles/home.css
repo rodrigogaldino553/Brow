@@ -2,3 +2,30 @@
     position: absolute;
     top: 0%;
 }
+
+.user{
+    display: flex;
+    height: 150px;
+    width: 100%;
+    align-items: center;
+    flex: 1;
+    padding: 16px;
+}
+
+.user img{
+    width: 120px;
+    height: 120px;
+    border: none;
+    border-radius: 60px;
+
+}
+
+.user div{
+    display: flex;
+    flex-direction: column;
+    padding-left: 30px;
+}
+
+.user div h4{
+    color: rgb(97, 96, 96);
+}
