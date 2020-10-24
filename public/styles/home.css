@@ -1,6 +1,38 @@
-.search{
-    position: absolute;
+.header{
+    position: fixed;
     top: 0%;
+    padding: 18px 0 8px 20px;
+    margin-bottom: 8px;
+    box-shadow: 1px 1px 5px;
+    width: 100%;
+    margin: 0 -15px 0 -30px;
+    background: whitesmoke;
+}
+.header #search{
+    height: 50px;
+    display: flex inline;
+    text-align: center;
+    background: rgb(228, 227, 227);
+}
+
+.header h1{
+    display: inline;
+    position: relative;
+    left: 10%;
+    font-size: 38px;
+}
+
+.header #user-icon{
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 35px;
+    position: absolute;
+    right: 4%;
+}
+
+.users{
+    margin-top: 50px;
 }
 
 .user{

@@ -14,13 +14,14 @@ module.exports = {
         const users = await db.all(`SELECT name, user, photo FROM users WHERE user!="${user.user}";`)
         console.log({users, user})
 
+        console.log('logged as '+user.user)
         
-        /*for(let c = 0; c < users.length; c++){
+        for(let c = 0; c < users.length; c++){
             if(users[c].user == user.user){
                 users.splice(c, c)
             }
         }
-        console.log(users)*/
+        console.log(users)
 
         return res.render('home.html', { users, user })
     },
