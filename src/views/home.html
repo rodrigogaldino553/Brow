@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bro | Home</title>
 
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/home.css">
 </head>
 
 <body>
@@ -15,10 +15,13 @@
     <div class="users">
         {%for user in users%}
         <div class="user">
-            <img src="{{user.photo}}" alt="{{user.user}}" class="user-photo">
-            <h2 class="user-name">{{user.name}}</h2>
-            <h4 class="user">{{user.user}}</h4>
+            <img src="{{user.photo}}" alt="{{user.user}}" onerror="this.src='/assets/padrao.png'" class="user-photo">
+            <div>
+                <h2>{{user.name}}</h2>
+                <h4>{{user.user}}</h4>
+            </div>
         </div>
+        <hr>
         {%endfor%}
     </div>
     <script src="/scripts/home.js"></script>
