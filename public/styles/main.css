@@ -27,3 +27,6 @@ input{
     font-size: 18px;
 }
 
+#user{
+    text-transform: lowercase;
+}
