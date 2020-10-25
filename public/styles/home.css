@@ -56,8 +56,15 @@
     display: flex;
     flex-direction: column;
     padding-left: 30px;
+    justify-content: space-around;
 }
 
 .user div h4{
     color: rgb(97, 96, 96);
+    margin-top: -10px;
+}
+
+.user div h5{
+    color: rgb(126, 125, 125);
+    margin-top: -10px;
 }
