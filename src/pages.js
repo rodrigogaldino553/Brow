@@ -11,16 +11,17 @@ module.exports = {
 
     async home(req, res) {
         const db = await database
-        const users = await db.all(`SELECT name, user, photo FROM users WHERE user!="${user.user}";`)
+        const users = await db.all(`SELECT name, user, photo, status FROM users WHERE user!="${user.user}";`)
         console.log({users, user})
 
+        console.log('logged as '+user.user)
         
-        /*for(let c = 0; c < users.length; c++){
+        for(let c = 0; c < users.length; c++){
             if(users[c].user == user.user){
                 users.splice(c, c)
             }
         }
-        console.log(users)*/
+        console.log(users)
 
         return res.render('home.html', { users, user })
     },
@@ -30,6 +31,10 @@ module.exports = {
         //data.photo = './assets/padrao.png'//por enquanto q nao arruma o front
         if (data.photo == '') {
             data.photo = './assets/padrao.png'//link de uma foto de perfil padrao
+        }
+        console.log(data.status)
+        if (data.status == '') {
+            data.status = "Hey there, I'm using BRO!"            
         }
         try {
             const db = await database
@@ -41,7 +46,7 @@ module.exports = {
                 res.send(`ERRO! ${data.user} já existe!`)
 
             } else {
-                await newUser(db, { name: data.name, user: data.user, password: data.password, photo: data.photo })
+                await newUser(db, { name: data.name, user: data.user.toLowerCase(), password: data.password, photo: data.photo, status: data.status })
                 return res.redirect('/')
                 
             }
@@ -66,6 +71,7 @@ module.exports = {
                 user.name = login[0].name
                 user.user = login[0].user
                 user.photo = login[0].photo
+                user.status = login[0].status
 
 
                 return res.redirect('/home')

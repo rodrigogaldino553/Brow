@@ -11,7 +11,15 @@
 </head>
 
 <body>
-    <input type="text" id="search" placeholder="Digite o nome ou usuario de alguem...">
+    <div class="header">
+        <input type="text" id="search-field" placeholder="Digite o nome ou usuario de alguem...">
+        <button id="search" type="button" onclick="search()">Search</button>
+
+        <h1>Bro</h1>
+        <img id="user-icon" src="{{user.photo}}" alt="{{user.user}}" onerror="this.src='/assets/padrao.png'">
+
+    </div>
+
     <div class="users">
         {%for user in users%}
         <div class="user">
@@ -19,6 +27,7 @@
             <div>
                 <h2>{{user.name}}</h2>
                 <h4>@{{user.user}}</h4>
+                <h5>"{{user.status}}"</h5>
             </div>
         </div>
         <hr>

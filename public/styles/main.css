@@ -3,6 +3,12 @@ body{
     padding: 20px;
 }
 
+button{
+    border: none;
+    border-radius: 8px;
+    padding: 18px;
+}
+
 
 .hide{
     display: none;
@@ -27,6 +33,6 @@ input{
     font-size: 18px;
 }
 
-#user{
+.user-field{
     text-transform: lowercase;
 }

@@ -4,12 +4,14 @@ function createUser(db, user){
             name,
             user,
             password,
-            photo
+            photo,
+            status
         ) VALUES(
             "${user.name}",
             "${user.user}",
             "${user.password}",
-            "${user.photo}"
+            "${user.photo}",
+            "${user.status}"
         );
     `)
 }
