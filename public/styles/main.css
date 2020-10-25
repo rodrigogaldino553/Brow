@@ -33,6 +33,6 @@ input{
     font-size: 18px;
 }
 
-#user{
+.user-field{
     text-transform: lowercase;
 }

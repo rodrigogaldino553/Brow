@@ -7,7 +7,8 @@ function execute(db){
         name TEXT,
         user TEXT,
         password TEXT,
-        photo TEXT
+        photo TEXT,
+        status TEXT
     );
     `)
 }
