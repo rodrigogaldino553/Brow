@@ -14,8 +14,8 @@
         <div class="header">
             <input type="text" id="search-field" name="data" placeholder="Digite o nome ou usuario de alguem...">
             <button id="search" type="submit" onclick="search()">Search</button>
-            <h1>Bro</h1>
-            <img id="user-icon" src="{{user.photo}}" alt="{{user.user}}" onerror="this.src='/assets/padrao.png'">
+            <h1 id="title">Bro</h1>
+            <img id="user-icon" onclick="showInfo()" src="{{user.photo}}" alt="{{user.user}}" onerror="this.src='/assets/padrao.png'">
         </div>
     </form>
 
@@ -33,5 +33,6 @@
         <hr>
         {%endfor%}
     </div>
+    <script src="/scripts/home.js"></script>
 </body>
 </html>

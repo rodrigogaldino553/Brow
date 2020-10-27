@@ -21,8 +21,7 @@ module.exports = {
                 users.splice(c, c)
             }
         }
-        console.log(users)
-
+       
         return res.render('home.html', { users, user })
     },
 
@@ -65,7 +64,7 @@ module.exports = {
 
         try {
             const db = await database
-            const login = await db.all(`SELECT * FROM users WHERE user="${data.user}" AND password="${data.password}";`)//user="${data.name}" FROM users WHERE password="${data.password}";`)
+            const login = await db.all(`SELECT * FROM users WHERE user="${data.user.toLowerCase()}" AND password="${data.password}";`)//user="${data.name}" FROM users WHERE password="${data.password}";`)
 
             if (login.length > 0) {
                 user.name = login[0].name

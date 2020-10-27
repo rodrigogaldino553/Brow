@@ -1,5 +1,7 @@
-function search(){
-    const input = document.querySelector('#search-field').value
-    alert(input)
 
+function showInfo(){
+    const data = document.querySelector('#keep-user').value
+    console.log(data)
 }
+
+
