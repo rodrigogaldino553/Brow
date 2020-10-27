@@ -12,12 +12,12 @@ module.exports = {
     async home(req, res) {
         const db = await database
         const users = await db.all(`SELECT name, user, photo, status FROM users WHERE user!="${user.user}";`)
-        console.log({users, user})
+        console.log({ users, user })
 
-        console.log('logged as '+user.user)
-        
-        for(let c = 0; c < users.length; c++){
-            if(users[c].user == user.user){
+        console.log('logged as ' + user.user)
+
+        for (let c = 0; c < users.length; c++) {
+            if (users[c].user == user.user) {
                 users.splice(c, c)
             }
         }
@@ -34,13 +34,13 @@ module.exports = {
         }
         console.log(data.status)
         if (data.status == '') {
-            data.status = "Hey there, I'm using BRO!"            
+            data.status = "Hey there, I'm using BRO!"
         }
         try {
             const db = await database
 
             const verify = await db.all(`SELECT * FROM users WHERE user="${data.user}"`)
-            
+
 
             if (verify.length > 0) {
                 res.send(`ERRO! ${data.user} já existe!`)
@@ -48,7 +48,7 @@ module.exports = {
             } else {
                 await newUser(db, { name: data.name, user: data.user.toLowerCase(), password: data.password, photo: data.photo, status: data.status })
                 return res.redirect('/')
-                
+
             }
         } catch (error) {
             console.log(error)
@@ -83,6 +83,28 @@ module.exports = {
             return res.send('FALHA AO CONSULTAR DADOS!')
         }
 
+
+    },
+
+    async search(req, res) {
+        const data = req.body.data
+
+        try {
+            const db = await database
+            const results = await db.all(`SELECT * FROM users WHERE name="${data}" OR user="${data}"`)
+            const searchInfo = { "name": data, "len": results.length }
+
+            console.log(results, searchInfo)
+
+            if (searchInfo.len > 0) {
+                return res.render("search-results.html", { results, searchInfo })
+
+            } else {
+                res.send(`<h1>Não existe "${searchInfo.name}" no banco de dados</h1>`)
+            }
+        } catch (error) {
+            res.send("<h1>Houve um erro no banco de dados, tente novamente!</h1>")
+        }
 
     }
 }

@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bro | Home</title>
+    <title>Bro | Results</title>
 
     <link rel="stylesheet" href="/styles/main.css">
     <link rel="stylesheet" href="/styles/home.css">
+    <link rel="stylesheet" href="/styles/results.css">
 </head>
-
 <body>
-
     <form action="search" method="post">
         <div class="header">
             <input type="text" id="search-field" name="data" placeholder="Digite o nome ou usuario de alguem...">
@@ -22,7 +20,8 @@
     </form>
 
     <div class="users">
-        {%for user in users%}
+        <h1>Exibindo {{searchInfo.len}} resultados para "{{searchInfo.name}}"</h1>
+        {%for user in results%}
         <div class="user">
             <img src="{{user.photo}}" alt="{{user.user}}" onerror="this.src='/assets/padrao.png'" class="user-photo">
             <div>
@@ -34,7 +33,5 @@
         <hr>
         {%endfor%}
     </div>
-    <script src="/scripts/home.js"></script>
 </body>
-
 </html>
