@@ -15,6 +15,7 @@ server
 
 .get("/", pages.index)
 .get("/home", pages.home)
+.get("/user", pages.user)
 .post("/create-user", pages.createUser)
 .post("/login", pages.login)
 .post("/search", pages.search)

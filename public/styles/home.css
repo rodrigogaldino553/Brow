@@ -1,3 +1,4 @@
+
 .header{
     position: fixed;
     top: 0%;
@@ -25,11 +26,13 @@
     background: rgb(228, 227, 227);
 }
 
-.header h1{
+.header #title{
     display: inline;
-    position: relative;
-    left: 10%;
-    font-size: 38px;
+    position: absolute;
+    top: -30%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 58px;
 }
 
 .header #user-icon{

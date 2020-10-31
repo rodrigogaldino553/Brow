@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/styles/main.css">
     <link rel="stylesheet" href="/styles/home.css">
     <link rel="stylesheet" href="/styles/results.css">
+    <link rel="stylesheet" href="/styles/user.css">
 </head>
 <body>
     <form action="search" method="post">
@@ -15,24 +16,13 @@
             <input type="text" id="search-field" name="data" placeholder="Digite o nome ou usuario de alguem...">
             <button id="search" type="submit" onclick="search()">Search</button>
             <h1 id="title">Bro</h1>
-            <img id="user-icon" onclick="showInfo()" src="{{user.photo}}" alt="{{user.user}}" onerror="this.src='/assets/padrao.png'">
+            <a href="/home"><img id="user-icon" onclick="showInfo()" src="/assets/home.png" alt="home" onerror="this.src='/assets/home.png'"></a>
         </div>
     </form>
 
-    <div class="users">
-        <h1>Exibindo {{searchInfo.len}} resultados para "{{searchInfo.name}}"</h1>
-        {%for user in results%}
-        <div class="user">
-            <img src="{{user.photo}}" alt="{{user.user}}" onerror="this.src='/assets/padrao.png'" class="user-photo">
-            <div>
-                <h2>{{user.name}}</h2>
-                <h4>@{{user.user}}</h4>
-                <h5>"{{user.status}}"</h5>
-            </div>
-        </div>
-        <hr>
-        {%endfor%}
+    <div class="content">
+        
     </div>
-    <script src="/scripts/home.js"></script>
+    <script src="/scripts/user.js"></script>
 </body>
 </html>
