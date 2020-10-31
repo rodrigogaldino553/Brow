@@ -75,7 +75,6 @@ module.exports = {
 
                 return res.redirect('/home')
             } else {
-                return res.send('DADOS NÃO CONFEREM!')
             }
         } catch (error) {
             console.log(error)
