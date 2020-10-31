@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bro | Results</title>
+
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/home.css">
+    <link rel="stylesheet" href="/styles/results.css">
+    <link rel="stylesheet" href="/styles/user.css">
+</head>
+<body>
+    <form action="search" method="post">
+        <div class="header">
+            <input type="text" id="search-field" name="data" placeholder="Digite o nome ou usuario de alguem...">
+            <button id="search" type="submit" onclick="search()">Search</button>
+            <h1 id="title">Bro</h1>
+            <a href="/home"><img id="user-icon" onclick="showInfo()" src="/assets/home.png" alt="home" onerror="this.src='/assets/home.png'"></a>
+        </div>
+    </form>
+
+    <div class="content">
+        
+    </div>
+    <script src="/scripts/user.js"></script>
+</body>
+</html>

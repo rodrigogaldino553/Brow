@@ -105,5 +105,9 @@ module.exports = {
             res.send("<h1>Houve um erro no banco de dados, tente novamente!</h1>")
         }
 
+    },
+
+    user(req, res){
+        return res.render("user.html", { user })
     }
 }

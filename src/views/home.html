@@ -7,17 +7,17 @@
     <title>Bro | Home</title>
 
     <link rel="stylesheet" href="/styles/main.css">
-    <link rel="stylesheet" href="/styles/home.css">
+    <link rel="stylesheet" href="/styles/home.css"> 
 </head>
 
 <body>
-    <input id="keep-user" type="text" hidden value="{'name': {{user.name}}, 'user':{{user.user}}, 'photo':{{user.photo}}, 'status':{{user.status}}}">
+    <input id="keep-user" type="text" hidden value="{{user.name}}, {{user.user}}, {{user.photo}}, {{user.status}}">
     <form action="search" method="post">
         <div class="header">
             <input type="text" id="search-field" name="data" placeholder="Digite o nome ou usuario de alguem...">
             <button id="search" type="submit" onclick="search()">Search</button>
             <h1 id="title">Bro</h1>
-            <img id="user-icon" onclick="showInfo()" src="{{user.photo}}" alt="{{user.user}}" onerror="this.src='/assets/padrao.png'">
+            <a href="/user"><img id="user-icon" onclick="showInfo()" src="{{user.photo}}" alt="{{user.user}}" onerror="this.src='/assets/padrao.png'"></a>
         </div>
     </form>
 
