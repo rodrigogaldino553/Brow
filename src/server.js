@@ -17,6 +17,7 @@ server
 .get("/home", pages.home)
 .post("/create-user", pages.createUser)
 .post("/login", pages.login)
+.post("/search", pages.search)
 .listen(process.env.PORT || 8080, ()=>{console.log('Working...')})
 
 
