@@ -1,5 +1,6 @@
 const database = require('./database/db')
 const newUser = require('./database/create-user')
+const bcrypt = require('bcrypt')
 
 
 var user = {}
@@ -21,7 +22,7 @@ module.exports = {
                 users.splice(c, c)
             }
         }
-       
+
         return res.render('home.html', { users, user })
     },
 
@@ -45,7 +46,8 @@ module.exports = {
                 res.send(`ERRO! ${data.user} já existe!`)
 
             } else {
-                await newUser(db, { name: data.name, user: data.user.toLowerCase(), password: data.password, photo: data.photo, status: data.status })
+                const hash = bcrypt.hashSync(data.password, 3)
+                await newUser(db, { name: data.name, user: data.user.toLowerCase(), password: hash, photo: data.photo, status: data.status })
                 return res.redirect('/')
 
             }
@@ -64,9 +66,13 @@ module.exports = {
 
         try {
             const db = await database
-            const login = await db.all(`SELECT * FROM users WHERE user="${data.user.toLowerCase()}" AND password="${data.password}";`)//user="${data.name}" FROM users WHERE password="${data.password}";`)
+            const login = await db.all(`SELECT * FROM users WHERE user="${data.user.toLowerCase()}";`) // AND password="${data.password}";`)//user="${data.name}" FROM users WHERE password="${data.password}";`)
+            const userHash = login[0].password
+            console.log(login)
+            console.log(userHash)
+            const isValid = bcrypt.compareSync(data.password, userHash)
 
-            if (login.length > 0) {
+            if (isValid) {
                 user.name = login[0].name
                 user.user = login[0].user
                 user.photo = login[0].photo
@@ -74,6 +80,7 @@ module.exports = {
 
 
                 return res.redirect('/home')
+
             } else {
                 return res.send('DADOS NÃO CONFEREM!')
             }
@@ -107,7 +114,7 @@ module.exports = {
 
     },
 
-    user(req, res){
+    user(req, res) {
         return res.render("user.html", { user })
     }
 }
