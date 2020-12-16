@@ -91,7 +91,7 @@ module.exports = {
 
         try {
             const db = await database
-            const results = await db.all(`SELECT * FROM users WHERE name="${data}" OR user="${data}"`)
+            const results = await db.all(`SELECT * FROM users WHERE name LIKE "%${data}%" OR user LIKE "%${data}%"`)
             const searchInfo = { "name": data, "len": results.length }
 
             
