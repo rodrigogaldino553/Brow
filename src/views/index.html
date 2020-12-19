@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,26 +8,35 @@
 
     <link rel="stylesheet" href="/styles/main.css">
 </head>
+
 <body>
     <h1>Hello, BRO!</h1>
     <form action="login" method="POST" class="show">
-        <input type="text" name="user" class="user-field" placeholder="Seu apelido..." required>
+        <label for="user">
+            use apenas a-z 0-9 e _
+            <input type="text" name="user" class="user-field" pattern="[a-z0-9_]{4,}" minlength="4" maxlength="12"
+                placeholder="Seu apelido..." required>
+        </label>
         <input type="password" name="password" placeholder="Digite sua senha..." required>
-        <a href="#" onclick="swift()">create account</a>
-        <button>login</button>
+        <a href="#" onclick="swift()">criar conta</a>
+        <button>Entrar</button>
     </form>
 
 
     <!--criar conta-->
     <form action="create-user" method="POST" class="hide">
         <input type="text" name="name" placeholder="Seu nome..." required>
-        <input type="text" name="user" class="user-field" placeholder="Como seus amigos te chamam..." required>
-        <input type="password" name="password" placeholder="Crie uma senha"required>
+        <label for="user-field">use apenas a-z 0-9 e _
+            <input type="text" name="user" class="user-field" pattern="[a-z0-9_]{4,}" minlength="4" maxlength="12"
+                placeholder="Como seus amigos te chamam..." required>
+        </label>
+        <input type="password" name="password" placeholder="Crie uma senha" required>
         <input type="url" name="photo" placeholder="Cole o link de uma foto...">
         <input type="text" name="status" maxlength="50" placeholder="Deixe aqui um recado...">
-        <button>log up</button>
+        <button>Criar conta</button>
     </form>
 
     <script src="/scripts/main.js"></script>
 </body>
+
 </html>
