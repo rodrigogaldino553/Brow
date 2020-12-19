@@ -1,9 +1,24 @@
 const database = require('./database/db')
 const newUser = require('./database/create-user')
 const bcrypt = require('bcrypt')
+const { FileSystemLoader } = require('nunjucks')
 
 
 var user = {}
+
+function isUserValid(username) {
+    pattern = /^[a-z0-9_]{4}$/.test(username)
+    console.log('the pattern is '+pattern)
+    if (username.length < 4 && username.length > 12) {
+        return false
+    
+    }else if(pattern == false){
+        return false
+
+    } else {
+        return true
+    }
+}
 
 module.exports = {
     index(req, res) {
@@ -13,7 +28,7 @@ module.exports = {
     async home(req, res) {
         const db = await database
         const users = await db.all(`SELECT name, user, photo, status FROM users WHERE user!="${user.user}";`)
-      
+
 
         for (let c = 0; c < users.length; c++) {
             if (users[c].user == user.user) {
@@ -30,7 +45,7 @@ module.exports = {
         if (data.photo == '') {
             data.photo = './assets/padrao.png'//link de uma foto de perfil padrao
         }
-        
+
         if (data.status == '') {
             data.status = "Hey there, I'm using BRO!"
         }
@@ -41,12 +56,19 @@ module.exports = {
 
 
             if (verify.length > 0) {
-                res.status(403).send(`ERRO! ${data.user} já existe!`)
+                res.status(400).send(`ERRO! ${data.user} já existe!`)
 
             } else {
-                const hash = bcrypt.hashSync(data.password, 3)
-                await newUser(db, { name: data.name, user: data.user.toLowerCase(), password: hash, photo: data.photo, status: data.status })
-                return res.status(200).redirect('/')
+                let hash = bcrypt.hashSync(data.password, 3)
+                let username = data.user.toLowerCase().replace(/ /g, '_')
+
+                if (isUserValid(username)) {
+                    await newUser(db, { name: data.name, user: username, password: hash, photo: data.photo, status: data.status })
+                    return res.status(200).redirect('/')
+
+                } else {
+                    return res.status(400).send("ERRO! NOME DE USUARIO INVALIDO, USE APENAS [a-z] [0-9] _ E PERMITIDO 4-12 CARACTERES")
+                }
 
             }
         } catch (error) {
@@ -63,7 +85,7 @@ module.exports = {
             const db = await database
             const login = await db.all(`SELECT * FROM users WHERE user="${data.user.toLowerCase()}";`) // AND password="${data.password}";`)//user="${data.name}" FROM users WHERE password="${data.password}";`)
             const userHash = login[0].password
-            
+
             const isValid = bcrypt.compareSync(data.password, userHash)
 
             if (isValid) {
@@ -76,7 +98,7 @@ module.exports = {
                 return res.status(200).redirect('/home')
 
             } else {
-                return res.status(403).send('DADOS NÃO CONFEREM!')
+                return res.status(403).send('DADOS NÃO CONFEREM! senha ou usuario incorreto')
             }
         } catch (error) {
             console.log(error)
@@ -94,7 +116,7 @@ module.exports = {
             const results = await db.all(`SELECT * FROM users WHERE name LIKE "%${data}%" OR user LIKE "%${data}%"`)
             const searchInfo = { "name": data, "len": results.length }
 
-            
+
             if (searchInfo.len > 0) {
                 return res.status(200).render("search-results.html", { results, searchInfo })
 
