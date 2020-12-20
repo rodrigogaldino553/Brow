@@ -1,7 +1,6 @@
 const database = require('./database/db')
 const newUser = require('./database/create-user')
 const bcrypt = require('bcrypt')
-const { FileSystemLoader } = require('nunjucks')
 
 
 var user = {}
@@ -39,7 +38,7 @@ module.exports = {
         return res.status(200).render('home.html', { users, user })
     },
 
-    async createUser(req, res) {
+    async signup(req, res) {
         const data = req.body
         //data.photo = './assets/padrao.png'//por enquanto q nao arruma o front
         if (data.photo == '') {

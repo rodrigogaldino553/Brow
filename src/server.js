@@ -16,7 +16,7 @@ server
 .get("/", pages.index)
 .get("/home", pages.home)
 .get("/user", pages.user)
-.post("/create-user", pages.createUser)
+.post("/signup", pages.signup)
 .post("/login", pages.login)
 .post("/search", pages.search)
 .listen(process.env.PORT || 8080, ()=>{console.log('Working...')})
