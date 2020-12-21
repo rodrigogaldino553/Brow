@@ -1,7 +1,7 @@
 const express = require('express')
 const server = express()
 
-const pages = require('./pages')
+const pages = require('./routes/pages')
 require('./controllers/controller')(server)
 const auth = require('./middlewares/auth')
 

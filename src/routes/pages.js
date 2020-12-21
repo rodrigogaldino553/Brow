@@ -1,7 +1,7 @@
-const database = require('./database/db')
-const newUser = require('./database/create-user')
+const database = require('../database/db')
+const newUser = require('../database/create-user')
 const bcrypt = require('bcrypt')
-const authConfig = require('./config/auth.json')
+const authConfig = require('../config/auth.json')
 const jwt = require('jsonwebtoken')
 
 
@@ -116,7 +116,8 @@ module.exports = {
                 /*res.json{
                     token:token
                 }*/
-                return res.status(200).redirect(`/home?token=${token}`)
+                req.app.set('token', token)
+                return res.status(200).redirect(`/home`)//?token=${token}`)
 
             } else {
                 return res.status(403).send('DADOS NÃO CONFEREM! senha ou usuario incorreto')
