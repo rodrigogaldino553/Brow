@@ -50,7 +50,7 @@ This project was developed using the:
 
 
 
-<h3>Acess link:<h3/>
+<h3>Link access:<h3/>
   https://hey-brow.herokuapp.com
 
 <!-- CONTACT -->
