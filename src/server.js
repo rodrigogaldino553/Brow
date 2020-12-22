@@ -1,29 +1,27 @@
 const express = require('express')
-const server = express()
-
-const pages = require('./routes/pages')
-require('./controllers/controller')(server)
+const routes = require('./routes/routes')
 const auth = require('./middlewares/auth')
 
+const server = express()
 const nunjucks = require('nunjucks')
-
 
 nunjucks.configure('src/views',{
     express:server,
     noCache:true
 })
-//como passar o authorizatino
+
 
 server
 .use(express.urlencoded({extended:true}))
 .use(express.static('public'))
 
-.get("/", pages.index)
-.get("/home", auth, pages.home)
-.get("/user", auth, pages.user)
-.post("/signup", pages.signup)
-.post("/login", pages.login)
-.post("/search", auth, pages.search)
+.get("/", routes.index)
+.get("/home", auth, routes.home)
+.get("/user", auth, routes.user)
+.post("/signup", routes.signup)
+.post("/login", routes.login)
+.post("/search", auth, routes.search)
+
 .listen(process.env.PORT || 8080, ()=>{console.log('Working...')})
 
 

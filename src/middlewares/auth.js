@@ -8,24 +8,15 @@ module.exports = (req, res, next) => {
     if(!authHeader){
         return res.status(401).send('No token provided')
     }
-    token = authHeader
-    /* parts = authHeader.split(' ')
-
-    if(!parts.length === 2){
-        return res.status(401).send('Token error')
-    }
-
-    const [ scheme, token ] = parts
-
-    if(!/^Bearer$/i.test(scheme)){
-        return res.status(401).send('Token malformatted!')
-    }*/
+    let token = authHeader
+    
 
     jwt.verify(token, authConfig.secret, (err, decoded) => {
         if (err) return res.status(401).send('Token invalid')
 
         res.userName = decoded.user
         res.userId = decoded.id
+        
         return next()
     })
 }
