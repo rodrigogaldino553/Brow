@@ -10,14 +10,15 @@ module.exports = {
     },
 
     async home(req, res) {
-        const token = req.app.get('token')
+        console.log('res: '+req.userName)
+        const token = req.body.token || req.query.token || req.headers['x-access-token'] || req.headers.authorization //|| req.app.get('token')
         let userPayload =  jwt.decode(token)
         const db = await database
 
         let user = await db.all(`SELECT name, user, photo, status FROM users WHERE id=${userPayload.id} AND user="${userPayload.user}";`)
         const users = await db.all(`SELECT name, user, photo, status FROM users WHERE user<>"${userPayload.user}";`)
         user = user[0]
-
+        
         return res.status(200).render('home.html', { users, user })
     },
 
@@ -80,9 +81,9 @@ module.exports = {
                 let user = login[0].user
 
                 let token = jwt.generateToken({ user: user, id: id })
-                req.app.set('token', token)
+                //req.app.set('token', token)
 
-                return res.status(200).redirect(`/home`)
+                return res.status(200).redirect(`/home?token=${token}`)
 
             } else {
                 return res.status(403).send('DADOS NÃO CONFEREM! senha ou usuario incorreto')
