@@ -1,23 +1,8 @@
-const database = require('./database/db')
-const newUser = require('./database/create-user')
+const database = require('../database/db')
+const newUser = require('../database/create-user')
 const bcrypt = require('bcrypt')
+const jwt = require('../controllers/jwt')
 
-
-var user = {}
-
-function isUserValid(username) {
-    pattern = /^[a-z0-9_]{4}$/.test(username)
-    console.log('the pattern is '+pattern)
-    if (username.length < 4 && username.length > 12) {
-        return false
-    
-    }else if(pattern == false){
-        return false
-
-    } else {
-        return true
-    }
-}
 
 module.exports = {
     index(req, res) {
@@ -25,22 +10,20 @@ module.exports = {
     },
 
     async home(req, res) {
+        const token = req.app.get('token')
+        let userPayload =  jwt.decode(token)
         const db = await database
-        const users = await db.all(`SELECT name, user, photo, status FROM users WHERE user!="${user.user}";`)
 
-
-        for (let c = 0; c < users.length; c++) {
-            if (users[c].user == user.user) {
-                users.splice(c, c)
-            }
-        }
+        let user = await db.all(`SELECT name, user, photo, status FROM users WHERE id=${userPayload.id} AND user="${userPayload.user}";`)
+        const users = await db.all(`SELECT name, user, photo, status FROM users WHERE user<>"${userPayload.user}";`)
+        user = user[0]
 
         return res.status(200).render('home.html', { users, user })
     },
 
     async signup(req, res) {
         const data = req.body
-        //data.photo = './assets/padrao.png'//por enquanto q nao arruma o front
+
         if (data.photo == '') {
             data.photo = './assets/padrao.png'//link de uma foto de perfil padrao
         }
@@ -48,9 +31,9 @@ module.exports = {
         if (data.status == '') {
             data.status = "Hey there, I'm using BRO!"
         }
+
         try {
             const db = await database
-
             const verify = await db.all(`SELECT * FROM users WHERE user="${data.user}"`)
 
 
@@ -61,9 +44,14 @@ module.exports = {
                 let hash = bcrypt.hashSync(data.password, 3)
                 let username = data.user.toLowerCase().replace(/ /g, '_')
 
-                if (isUserValid(username)) {
+                if (jwt.isUserValid(username)) {
                     await newUser(db, { name: data.name, user: username, password: hash, photo: data.photo, status: data.status })
-                    return res.status(200).redirect('/')
+                    
+                    let id = await db.all(`SELECT id FROM users WHERE user="${username}";`)
+                    var token = jwt.generateToken({ user: username, id: id })
+                    req.app.set('token', token)
+                    
+                    return res.status(200).redirect('/home')
 
                 } else {
                     return res.status(400).send("ERRO! NOME DE USUARIO INVALIDO, USE APENAS [a-z] [0-9] _ E PERMITIDO 4-12 CARACTERES")
@@ -86,15 +74,15 @@ module.exports = {
             const userHash = login[0].password
 
             const isValid = bcrypt.compareSync(data.password, userHash)
-
+            
             if (isValid) {
-                user.name = login[0].name
-                user.user = login[0].user
-                user.photo = login[0].photo
-                user.status = login[0].status
+                let id = login[0].id
+                let user = login[0].user
 
+                let token = jwt.generateToken({ user: user, id: id })
+                req.app.set('token', token)
 
-                return res.status(200).redirect('/home')
+                return res.status(200).redirect(`/home`)
 
             } else {
                 return res.status(403).send('DADOS NÃO CONFEREM! senha ou usuario incorreto')
@@ -128,7 +116,14 @@ module.exports = {
 
     },
 
-    user(req, res) {
+    async user(req, res) {
+        const token = req.app.get('token')
+        let userPayload =  jwt.decode(token)
+
+        const db = await database
+        let user = await db.all(`SELECT name, user, photo, status FROM users WHERE id=${userPayload.id} AND user="${userPayload.user}";`)
+        user = user[0]
+
         return res.status(200).render("user.html", { user })
     }
 }
