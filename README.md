@@ -46,6 +46,7 @@ This project was developed using the:
 - [NodeJS](https://nodejs.org/en/)
 - [ExpressJS](https://expressjs.com/en/)
 - [SQLite](https://www.sqlite.org/index.html)
+- [JWT}(https://jwt.io/)
 - [JavaScript](https://www.javascript.com/)
 
 
