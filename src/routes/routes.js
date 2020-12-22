@@ -50,9 +50,9 @@ module.exports = {
                     
                     let id = await db.all(`SELECT id FROM users WHERE user="${username}";`)
                     var token = jwt.generateToken({ user: username, id: id })
-                    req.app.set('token', token)
+                    //req.app.set('token', token)
                     
-                    return res.status(200).redirect('/home')
+                    return res.status(200).redirect(`/home?token=${token}`)
 
                 } else {
                     return res.status(400).send("ERRO! NOME DE USUARIO INVALIDO, USE APENAS [a-z] [0-9] _ E PERMITIDO 4-12 CARACTERES")
