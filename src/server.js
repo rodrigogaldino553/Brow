@@ -1,10 +1,13 @@
 const express = require('express')
 const routes = require('./routes/routes')
 const auth = require('./middlewares/auth')
-
+const authConfig = require('./config/auth.json')
 
 const server = express()
+const serverSession = require('express-session')
+
 const nunjucks = require('nunjucks')
+//const session = require('express-session')
 
 nunjucks.configure('src/views',{
     express:server,
@@ -14,7 +17,9 @@ nunjucks.configure('src/views',{
 
 server
 .use(express.urlencoded({extended:true}))
+.use(serverSession({secret: authConfig.secret, resave: false, saveUninitialized: false}))
 .use(express.static('public'))
+//.use(auth)
 
 .get("/", routes.index)
 .get("/home", auth, routes.home)

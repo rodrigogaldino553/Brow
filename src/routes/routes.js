@@ -10,8 +10,7 @@ module.exports = {
     },
 
     async home(req, res) {
-        console.log('res: '+req.userName)
-        const token = req.body.token || req.query.token || req.headers['x-access-token'] || req.headers.authorization //|| req.app.get('token')
+        const token = req.body.token || req.query.token || req.headers['x-access-token'] || req.headers.authorization || res.token//|| req.app.get('token')
         let userPayload =  jwt.decode(token)
         const db = await database
 
@@ -19,7 +18,8 @@ module.exports = {
         const users = await db.all(`SELECT name, user, photo, status FROM users WHERE user<>"${userPayload.user}";`)
         user = user[0]
         
-        return res.status(200).render('home.html', { users, user })
+        
+        return res.status(200).render('home.html', { users, user, token })
     },
 
     async signup(req, res) {
@@ -51,8 +51,8 @@ module.exports = {
                     let id = await db.all(`SELECT id FROM users WHERE user="${username}";`)
                     var token = jwt.generateToken({ user: username, id: id })
                     //req.app.set('token', token)
-                    
-                    return res.status(200).redirect(`/home?token=${token}`)
+                    res.token = token
+                    return res.status(200).redirect(`/home`)
 
                 } else {
                     return res.status(400).send("ERRO! NOME DE USUARIO INVALIDO, USE APENAS [a-z] [0-9] _ E PERMITIDO 4-12 CARACTERES")
@@ -81,9 +81,8 @@ module.exports = {
                 let user = login[0].user
 
                 let token = jwt.generateToken({ user: user, id: id })
-                //req.app.set('token', token)
-
-                return res.status(200).redirect(`/home?token=${token}`)
+                req.session.token = token
+                return res.status(200).redirect(`/home`)
 
             } else {
                 return res.status(403).send('DADOS NÃO CONFEREM! senha ou usuario incorreto')
@@ -101,7 +100,7 @@ module.exports = {
 
         try {
             const db = await database
-            const results = await db.all(`SELECT * FROM users WHERE name LIKE "%${data}%" OR user LIKE "%${data}%"`)
+            const results = await db.all(`SELECT * FROM users WHERE name LIKE "%${data}%" OR user LIKE "%${data}%;"`)
             const searchInfo = { "name": data, "len": results.length }
 
 
