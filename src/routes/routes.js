@@ -50,8 +50,8 @@ module.exports = {
                     
                     let id = await db.all(`SELECT id FROM users WHERE user="${username}";`)
                     var token = jwt.generateToken({ user: username, id: id })
-                    //req.app.set('token', token)
-                    res.token = token
+                    
+                    res.session.token = token
                     return res.status(200).redirect(`/home`)
 
                 } else {
