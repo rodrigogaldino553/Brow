@@ -17,7 +17,7 @@ nunjucks.configure('src/views',{
 
 server
 .use(express.urlencoded({extended:true}))
-.use(serverSession({secret: authConfig.secret, resave: false, saveUninitialized: false}))
+.use(serverSession({secret: authConfig.secret, resave:false, saveUninitialized:false, cookie:{maxAge:86400}}))
 .use(express.static('public'))
 //.use(auth)
 
@@ -27,6 +27,7 @@ server
 .post("/signup", routes.signup)
 .post("/login", routes.login)
 .post("/search", auth, routes.search)
+.post("/update", auth, routes.update)
 
 .listen(process.env.PORT || 8080, ()=>{console.log('Working...')})
 
