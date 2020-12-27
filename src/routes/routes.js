@@ -11,15 +11,15 @@ module.exports = {
 
     async home(req, res) {
         const token = req.body.token || req.query.token || req.headers['x-access-token'] || req.headers.authorization || res.token//|| req.app.get('token')
-        let userPayload =  jwt.decode(token)
+        let userPayload = jwt.decode(token)
         const db = await database
 
         let user = await db.all(`SELECT name, user, photo, status FROM users WHERE id=${userPayload.id} AND user="${userPayload.user}";`)
         const users = await db.all(`SELECT name, user, photo, status FROM users WHERE user<>"${userPayload.user}";`)
         user = user[0]
-        
-        
-        return res.status(200).render('home.html', { users, user, token })
+
+
+        return res.status(200).render('home.html', { users, user })
     },
 
     async signup(req, res) {
@@ -47,10 +47,10 @@ module.exports = {
 
                 if (jwt.isUserValid(username)) {
                     await newUser(db, { name: data.name, user: username, password: hash, photo: data.photo, status: data.status })
-                    
+
                     let id = await db.all(`SELECT id FROM users WHERE user="${username}"`)
                     var token = jwt.generateToken({ user: username, id: id[0].id })
-                    
+
                     req.session.token = token
                     return res.status(200).redirect(`/home`)
 
@@ -71,17 +71,18 @@ module.exports = {
 
         try {
             const db = await database
-            const login = await db.all(`SELECT * FROM users WHERE user="${data.user.toLowerCase()}";`) // AND password="${data.password}";`)//user="${data.name}" FROM users WHERE password="${data.password}";`)
+            const login = await db.all(`SELECT * FROM users WHERE user="${data.user}"`) // AND password="${data.password}";`)//user="${data.name}" FROM users WHERE password="${data.password}";`)
             const userHash = login[0].password
 
             const isValid = bcrypt.compareSync(data.password, userHash)
-            
+
             if (isValid) {
                 let id = login[0].id
                 let user = login[0].user
 
                 let token = jwt.generateToken({ user: user, id: id })
                 req.session.token = token
+                //res.setHeader('x-access-token', token)
                 return res.status(200).redirect(`/home`)
 
             } else {
@@ -100,9 +101,8 @@ module.exports = {
 
         try {
             const db = await database
-            const results = await db.all(`SELECT * FROM users WHERE name LIKE "%${data}%" OR user LIKE "%${data}%;"`)
+            const results = await db.all(`SELECT * FROM users WHERE name LIKE "%${data}%" OR user LIKE "%${data}%"`)
             const searchInfo = { "name": data, "len": results.length }
-
 
             if (searchInfo.len > 0) {
                 return res.status(200).render("search-results.html", { results, searchInfo })
@@ -116,12 +116,25 @@ module.exports = {
 
     },
 
+    async update(req, res) {
+        try {
+            const id = res.userId
+            const field = req.body.field
+            const newValue = req.body.newValue
+
+            const db = await database
+            await db.all(`UPDATE users SET ${field} = "${newValue}" WHERE id = ${id}`)
+        } catch (error) {
+            return res.status(503).send(`NOT WAS POSSIBLE UPDATE ${field} WITH ${newValue}`)
+        }
+    },
+
     async user(req, res) {
-        const token = req.app.get('token')
-        let userPayload =  jwt.decode(token)
+        const id = res.userId
+        const userName = res.userName
 
         const db = await database
-        let user = await db.all(`SELECT name, user, photo, status FROM users WHERE id=${userPayload.id} AND user="${userPayload.user}";`)
+        let user = await db.all(`SELECT name, user, photo, status FROM users WHERE id=${id} AND user="${userName}";`)
         user = user[0]
 
         return res.status(200).render("user.html", { user })
